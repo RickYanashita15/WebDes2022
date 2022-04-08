@@ -15,14 +15,26 @@ Finger
 // let user = prompt("choose: rock, paper, or scissors...");
 let user;
 let choices = ["rock", "paper", "scissors"];
+let winCount = 0;
+let lossCount = 0;
+let tieCount = 0; 
+let winPercent; 
+// will be calculated when the function is running
+let totalCount = 0; 
+// declared extra variables for the Counts of each win,loss,tie to create a scoreboard/tracker
+
+
 
 function userChoice(choice) {
     user = choice;
+    // whatever the user chooses, that will become var user. Will be run through compare() function
     compare();
 }
 
 function randNum(things){
     return Math.floor(Math.random() * things.length);
+    // spits out a random number from within the bounds of the method
+    // the method uses things.length to adapt to any length of rock, paper, scissors. gun, pool noodle, etc. 
 }
 
 function cpuChoice(){
@@ -31,6 +43,7 @@ function cpuChoice(){
 }
 
 function drawImg(pic, width, height, alt, id){
+    // this function just draws the images of rock,paper,scissors
     var x = document.createElement("IMG");
     x.setAttribute("src", pic);
     x.setAttribute("width", width);
@@ -45,6 +58,7 @@ function removeChild(id){
     let identity = document.getElementById(id);
     while (identity.firstChild) {
         identity.removeChild(identity.firstChild);
+//purpose of the function is to remove the old image of the computer/player's choices to declutter the game screen
     }
 }
 
@@ -58,6 +72,7 @@ function compare(){
     removeChild('player');
     removeChild('cpu'); 
 
+    //for each scenario, the compare() function draws the corresponding image
     if (user == "rock"){
         drawImg("_images/rock.jpg", "100", "100", "rock", "player");
     }
@@ -76,162 +91,40 @@ function compare(){
     if (cpu == "scissors"){
         drawImg("_images/scissors.png", "100", "100", "scissors", "cpu");
     }
+
+    //the computer operates through these if statements to find which result occured
     if (user == "rock" && cpu == "scissors" ||
     user == "paper" && cpu == "rock" ||
     user == "scissors" && cpu == "paper") {
     console.log("user wins the game...");
+    //add +1 for every win the user gets, add to the winCount
+    winCount++; 
+    // winCount is the name of the id, called in the rps.html file.
+    // when winCount is called, the winCount variable is called using span function taken from StackOverflow
+    document.getElementById("winCount").innerHTML = winCount;
+    //above line of code picked up from StackOverflow
+    //
     }
     else if (cpu == "rock" && user == "scissors" ||
     cpu == "paper" && user == "rock" ||
     cpu == "scissors" && user == "paper") {
     console.log("user loses the game...");
+    lossCount++; 
+    document.getElementById("lossCount").innerHTML = lossCount;
+
     }
     else if (cpu == user){
     console.log("tie game...");
+    tieCount++; 
+    document.getElementById("tieCount").innerHTML = tieCount;
+
+    totalCount++; 
+    winPercent = winCount/totalCount; 
+    // calculate winPercent by dividing win count by the total number of turns of rps taken
+    document.getElementById("winPercent").innerHTML = winPercent;
+
     }
     else {
     console.log("something went wrong");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // let choices = ["rock", "paper", "scissors"];
-// // let cpu = Math.floor(Math.random()*choices.length);
-// //arrays are a collection of elements that are referenced by an index
-// // call rock by asking for choices[0]
-
-// console.log("Hello World, This is my new Rock Paper Scissor Website");
-// // let choice = prompt("Please choose rock, paper, or scissors");
-// // console.log("The computer chose " + cpu) <--- used before to make sure cpu/rps code was correct
-
-// function playRps(choice){
-//     while (true){
-//         if (choice == "rock"){
-//             onRock();
-//         }
-//         else if (choice == "paper"){
-//             onPaper();
-//         }
-//         else if (choice == "scissors"){
-//             onScissors();
-//         }
-//         else{
-//             console.log("Something went wrong...")
-//         }
-//     }
-// }
-// //This function called when user selects Rock button
-// function onRock(){
-//     let choices = ["rock", "paper", "scissors"];
-//     let cpu = Math.floor(Math.random()*choices.length);
-//     if (choices[cpu] == "rock"){
-//         createResult("It's a tie, play again!"); //Go through each possibility, return result as paragraph
-//     } //createResult is still in development, doesn't display paragraph yet
-//     else if (choices[cpu] == "paper"){
-//         createResult("Computer chose paper, Computer wins! Try again"); 
-//     }
-//     else{
-//         createResult("Computer chose scissors, You win. Congrats!");
-//     }
-// }
-// //Same function as onRock, but for the paper button
-// function onPaper(){
-//     let choices = ["rock", "paper", "scissors"];
-//     let cpu = Math.floor(Math.random()*choices.length);
-//     if (choices[cpu] == "rock"){
-//         createResult("Computer chose rock, You win. Congrats!");
-//     }
-//     else if (choices[cpu] == "'paper"){
-//         createResult("It's a tie, play again!");
-//     }
-//     else{
-//         createResult("Computer chose scissors, Computer wins!. Try again");
-//     }
-// }
-// //Same function as onRock, but for the paper button
-// function onScissors(){
-//     let choices = ["rock", "paper", "scissors"];
-//     let cpu = Math.floor(Math.random()*choices.length);
-//     if (choices[cpu] == "rock"){
-//         createResult("Computer chose rock, Computer wins! Try again"); 
-//     }
-//     else if (choices[cpu] == "paper"){
-//         createResult("Computer chose paper, You win. Congrats!"); 
-//     }
-//     else{
-//         createResult("It's a tie, play again!"); 
-//     }
-// }
-// function createResult(content){ //Haven't solved how to display the result text yet, this function doesn't seem to be working
-//         const para = document.createElement("p"); //create an element of paragraph
-//         para.innerText = content; //whatever is put in for the content parameter will be displayed as a newly created element
-//         document.body.appendChild(para);
-// }
-// function createImage(){ // https://www.w3schools.com/jsref/dom_obj_image.asp
-//     var x = document.createElement("IMG")
-//     x.setAttribute("src", "_images/nokia.jpg"); //FINISH THIS
-//     x.setAttribute("width", "304");
-//     x.setAttribute("height", "228");
-//     x.setAttribute("alt", "The Pulpit Rock");
-//     document.body.appendChild(x); 
-// }
-// //creates the image using createElement js method, can be called in earlier/later code to create an image.
